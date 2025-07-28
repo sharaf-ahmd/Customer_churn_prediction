@@ -52,6 +52,7 @@ An end-to-end project that predicts if a customer will churn using an Artificial
 
 ## 📁 Project Structure
 
+```text
 customer_churn_prediction/
 │
 ├── model/
@@ -68,4 +69,6 @@ customer_churn_prediction/
 │   └── ccp.ipynb                     # Full training & evaluation notebook
 │
 └── README.md                         # Project documentation
+```
+
 

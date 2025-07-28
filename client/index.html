@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Churn Prediction</title>
+  <style>
+    body {
+      background-color: #121212;
+      font-family: 'Segoe UI', sans-serif;
+      color: #e0e0e0;
+      padding: 40px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #90caf9;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+    form {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+      border: 2px solid #90caf9;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px 40px; /* row gap, column gap */
+    }
+    /* Each label-input pair container */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 500;
+      color: #b0bec5;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+      box-sizing: border-box;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #90caf9;
+      background-color: #383838;
+    }
+    button {
+      grid-column: 1 / -1; /* full width button spanning both columns */
+      margin-top: 30px;
+      padding: 12px 30px;
+      background-color: #90caf9;
+      color: #121212;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      justify-self: center;
+      width: 50%;
+    }
+    button:hover {
+      background-color: #64b5f6;
+    }
+    #result {
+      grid-column: 1 / -1;
+      margin-top: 25px;
+      font-size: 20px;
+      text-align: center;
+      font-weight: bold;
+      color: #f48fb1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Customer Churn Prediction</h1>
+
+  <form id="predictForm">
+
+    <!-- Left column inputs -->
+    <div class="form-group">
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender" required>
+        <option value="0">Female</option>
+        <option value="1">Male</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="SeniorCitizen">Senior Citizen:</label>
+      <select id="SeniorCitizen" name="SeniorCitizen" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="Partner">Partner:</label>
+      <select id="Partner" name="Partner" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="Dependents">Dependents:</label>
+      <select id="Dependents" name="Dependents" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tenure">Tenure (months):</label>
+      <input type="number" id="tenure" name="tenure" min="0" max="100" step="1" required />
+    </div>
+
+    <div class="form-group">
+      <label for="PhoneService">Phone Service:</label>
+      <select id="PhoneService" name="PhoneService" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="MultipleLines">Multiple Lines:</label>
+      <select id="MultipleLines" name="MultipleLines" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+        <option value="2">No phone service</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="OnlineSecurity">Online Security:</label>
+      <select id="OnlineSecurity" name="OnlineSecurity" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+        <option value="2">No internet service</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="OnlineBackup">Online Backup:</label>
+      <select id="OnlineBackup" name="OnlineBackup" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+        <option value="2">No internet service</option>
+      </select>
+    </div>
+
+    <!-- Right column inputs -->
+    <div class="form-group">
+      <label for="DeviceProtection">Device Protection:</label>
+      <select id="DeviceProtection" name="DeviceProtection" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+        <option value="2">No internet service</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="TechSupport">Tech Support:</label>
+      <select id="TechSupport" name="TechSupport" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+        <option value="2">No internet service</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="StreamingTV">Streaming TV:</label>
+      <select id="StreamingTV" name="StreamingTV" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+        <option value="2">No internet service</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="StreamingMovies">Streaming Movies:</label>
+      <select id="StreamingMovies" name="StreamingMovies" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+        <option value="2">No internet service</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="PaperlessBilling">Paperless Billing:</label>
+      <select id="PaperlessBilling" name="PaperlessBilling" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="MonthlyCharges">Monthly Charges:</label>
+      <input type="number" id="MonthlyCharges" name="MonthlyCharges" min="0" step="any" required />
+    </div>
+
+    <div class="form-group">
+      <label for="TotalCharges">Total Charges:</label>
+      <input type="number" id="TotalCharges" name="TotalCharges" min="0" step="any" required />
+    </div>
+
+    <div class="form-group">
+      <label for="InternetService">Internet Service:</label>
+      <select id="InternetService" name="InternetService" required>
+        <option value="DSL">DSL</option>
+        <option value="Fiber_optic">Fiber optic</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="Contract">Contract:</label>
+      <select id="Contract" name="Contract" required>
+        <option value="Month_to_month">Month-to-month</option>
+        <option value="One_year">One year</option>
+        <option value="Two_year">Two year</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="PaymentMethod">Payment Method:</label>
+      <select id="PaymentMethod" name="PaymentMethod" required>
+        <option value="Bank_transfer_automatic">Bank transfer (automatic)</option>
+        <option value="Credit_card_automatic">Credit card (automatic)</option>
+        <option value="Electronic_check">Electronic check</option>
+        <option value="Mailed_check">Mailed check</option>
+      </select>
+    </div>
+
+    <button type="submit">Predict</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById("predictForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = e.target;
+
+      const gender = parseInt(form.gender.value);
+      const SeniorCitizen = parseInt(form.SeniorCitizen.value);
+      const Partner = parseInt(form.Partner.value);
+      const Dependents = parseInt(form.Dependents.value);
+      const tenure = parseFloat(form.tenure.value);
+      const PhoneService = parseInt(form.PhoneService.value);
+
+      const MultipleLines_raw = parseInt(form.MultipleLines.value);
+      const MultipleLines_Yes = MultipleLines_raw === 1 ? 1 : 0;
+      const MultipleLines_No_phone_service = MultipleLines_raw === 2 ? 1 : 0;
+
+      function convertService(value) {
+        if (value === "0" || value === 0) return [0,0];
+        if (value === "1" || value === 1) return [1,0];
+        if (value === "2" || value === 2) return [0,1];
+      }
+
+      const [OnlineSecurity, OnlineSecurity_NoInternet] = convertService(form.OnlineSecurity.value);
+      const [OnlineBackup, OnlineBackup_NoInternet] = convertService(form.OnlineBackup.value);
+      const [DeviceProtection, DeviceProtection_NoInternet] = convertService(form.DeviceProtection.value);
+      const [TechSupport, TechSupport_NoInternet] = convertService(form.TechSupport.value);
+      const [StreamingTV, StreamingTV_NoInternet] = convertService(form.StreamingTV.value);
+      const [StreamingMovies, StreamingMovies_NoInternet] = convertService(form.StreamingMovies.value);
+
+      const PaperlessBilling = parseInt(form.PaperlessBilling.value);
+      const MonthlyCharges = parseFloat(form.MonthlyCharges.value);
+      const TotalCharges = parseFloat(form.TotalCharges.value);
+
+      const InternetService_val = form.InternetService.value;
+      const InternetService_DSL = InternetService_val === "DSL" ? 1 : 0;
+      const InternetService_Fiber_optic = InternetService_val === "Fiber_optic" ? 1 : 0;
+      const InternetService_No = InternetService_val === "No" ? 1 : 0;
+
+      const Contract_val = form.Contract.value;
+      const Contract_Month_to_month = Contract_val === "Month_to_month" ? 1 : 0;
+      const Contract_One_year = Contract_val === "One_year" ? 1 : 0;
+      const Contract_Two_year = Contract_val === "Two_year" ? 1 : 0;
+
+      const PaymentMethod_val = form.PaymentMethod.value;
+      const PaymentMethod_Bank_transfer_automatic = PaymentMethod_val === "Bank_transfer_automatic" ? 1 : 0;
+      const PaymentMethod_Credit_card_automatic = PaymentMethod_val === "Credit_card_automatic" ? 1 : 0;
+      const PaymentMethod_Electronic_check = PaymentMethod_val === "Electronic_check" ? 1 : 0;
+      const PaymentMethod_Mailed_check = PaymentMethod_val === "Mailed_check" ? 1 : 0;
+
+      const data = {
+        gender,
+        SeniorCitizen,
+        Partner,
+        Dependents,
+        tenure,
+        PhoneService,
+        MultipleLines: MultipleLines_Yes,
+        OnlineSecurity,
+        OnlineBackup,
+        DeviceProtection,
+        TechSupport,
+        StreamingTV,
+        StreamingMovies,
+        PaperlessBilling,
+        MonthlyCharges,
+        TotalCharges,
+        InternetService_DSL,
+        InternetService_Fiber_optic,
+        InternetService_No,
+        Contract_Month_to_month,
+        Contract_One_year,
+        Contract_Two_year,
+        PaymentMethod_Bank_transfer_automatic,
+        PaymentMethod_Credit_card_automatic,
+        PaymentMethod_Electronic_check,
+        PaymentMethod_Mailed_check
+      };
+
+      console.log("Data sent to API:", data);
+
+      try {
+        const res = await fetch("http://localhost:8000/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+
+        if (result.error) {
+          document.getElementById("result").textContent = "Error: " + result.error;
+        } else {
+          document.getElementById("result").textContent =
+            result.prediction === 1 ? "🚨 Churn: Yes" : "✅ Churn: No";
+        }
+      } catch (err) {
+        document.getElementById("result").textContent = "Fetch error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

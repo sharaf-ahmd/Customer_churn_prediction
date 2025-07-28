@@ -55,16 +55,17 @@ An end-to-end project that predicts if a customer will churn using an Artificial
 customer_churn_prediction/
 │
 ├── model/
-│ └── model.keras # Trained ANN model
+│   └── model.keras                   # Trained ANN model
 │
 ├── server/
-│ ├── main.py # FastAPI backend
-│ └── requirements.txt # Backend dependencies
+│   ├── main.py                       # FastAPI backend
+│   └── requirements.txt              # Backend dependencies
 │
 ├── frontend/
-│ └── index.html # UI with input fields and Fetch logic
+│   └── index.html                    # UI with input fields and Fetch logic
 │
 ├── notebook/
-│ └── ccp.ipynb # Full training & evaluation notebook
+│   └── ccp.ipynb                     # Full training & evaluation notebook
 │
-└── README.md # Project documentation
+└── README.md                         # Project documentation
+

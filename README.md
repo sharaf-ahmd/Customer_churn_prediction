@@ -57,16 +57,14 @@ customer_churn_prediction/
 │
 ├── model/
 │   └── model.keras                   # Trained ANN model
-│
+│   └── ccp.ipynb                     # Full training & evaluation notebook
+│   └── customer_churn.csv            # Dataset used for training
 ├── server/
 │   ├── main.py                       # FastAPI backend
 │   └── requirements.txt              # Backend dependencies
 │
-├── frontend/
+├── client/
 │   └── index.html                    # UI with input fields and Fetch logic
-│
-├── notebook/
-│   └── ccp.ipynb                     # Full training & evaluation notebook
 │
 └── README.md                         # Project documentation
 ```
